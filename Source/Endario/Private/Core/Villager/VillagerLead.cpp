@@ -8,12 +8,9 @@
 #include "GameFramework/Pawn.h"
 #include <time.h>
 
-
-
 // Sets default values
 AVillagerLead::AVillagerLead()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	// More Temporary Mesh Things
@@ -40,21 +37,16 @@ AVillagerLead::AVillagerLead()
 		SelectionMesh->SetupAttachment(BaseMesh);
 
 		SelectionMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 7.0f));
-		SelectionMesh->SetVisibility(false);	
-		
+		SelectionMesh->SetVisibility(false);
+
 	}
 
-
 	// Connect AI Controller
-	//auto CustomAIController = ConstructorHelpers::FObjectFinder<AController>(TEXT("Blueprint'/Game/Core/DebugAndTest/TEST_AIController.TEST_AIController'"));
+	auto CustomAIController = ConstructorHelpers::FObjectFinder<AController>(TEXT("Blueprint'/Game/Core/DebugAndTest/TEST_AIController.TEST_AIController'"));
 
 	static ConstructorHelpers::FObjectFinder<UBlueprint> AICon(TEXT("Blueprint'/Game/Core/DebugAndTest/AI/TEST_UnitAIController.TEST_UnitAIController'"));
 	AIControllerClass = AICon.Object->GeneratedClass;
-	//this->AIControllerClass = AIControllerClass::StaticClass();
-	
-	//getaicontroll
-	//Blueprint'/Game/Core/DebugAndTest/TEST_AIController.TEST_AIController'
-
+	this->AIControllerClass = AIControllerClass::StaticClass();
 
 	// Details
 	Name = "Joshua Cripps";
@@ -64,50 +56,30 @@ AVillagerLead::AVillagerLead()
 	Strength = FMath::RandRange(1, 10);
 	Ocean = InitOceanDetails();
 
-
-	// Set up Random Values for Ocean Personality
-	//= FMath::RandRange(1, 10);
-	
-
-
-
-	// Attach Villager Component : Preventing Circular Dependency (3)
 	VillagerActionsComponent = CreateDefaultSubobject<UVillagerComponent>(TEXT("LeadVillagerActionsComponent"));
 }
 
 // Called when the game starts or when spawned
-void AVillagerLead::BeginPlay()
-{
+void AVillagerLead::BeginPlay() {
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("Im called at the start: Pawn"));
-
-	//GetStats();
-
-	//SelectionMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-	
 }
 
 // Called every frame
-void AVillagerLead::Tick(float DeltaTime)
-{
+void AVillagerLead::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
+}
+
+// Called to bind functionality to input
+void AVillagerLead::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
 
-//// Called to bind functionality to input
-//void AVillagerLead::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-//{
-//	Super::SetupPlayerInputComponent(PlayerInputComponent);
-//
-//}
-
 FUnitDetailsBU AVillagerLead::GetStatsBU() {
 
-	
-	// UE_LOG(LogTemp, Warning, TEXT("Attempting to get stats: Pawn"));
 	FUnitDetailsBU CurrentDetails;
-	//srand(time(NULL));
-	
 
 	CurrentDetails.UnitName = Name;
 	CurrentDetails.UnitGender = Sex;
@@ -117,20 +89,6 @@ FUnitDetailsBU AVillagerLead::GetStatsBU() {
 
 	CurrentDetails.UnitOcean = Ocean;
 
-	//SelectionMesh->SetVisibility(true);
-	//CurrentDetails.UnitClass = iSecret;
-	 //UE_LOG(LogTemp, Warning, TEXT("Attempting to get stats: [%s]"), *FString(iSecret) );
-
-	//CurrentDetails.UnitName = "David Temp";
-	//CurrentDetails.UnitGender = "Woman Temp";
-	//CurrentDetails.UnitMood = "Hungry Temp";
-	//CurrentDetails.UnitClass = "Class Temp";
-	//CurrentDetails.UnitTemp = "Temp Temp";
-	//CurrentDetails.UnitClass = iSecret;
-
-	//UE_LOG(LogTemp, Warning, TEXT("Unit Details: %s, %s, %s, %s, %d"), *FString(CurrentDetails.UnitName), *FString(CurrentDetails.UnitGender), *FString(CurrentDetails.UnitMood), *FString(CurrentDetails.UnitClass), CurrentDetails.UnitStrength);
-
-
 	return CurrentDetails;
 }
 
@@ -138,18 +96,15 @@ void AVillagerLead::ToggleSelection(bool bIsSelected) {
 
 	if (bIsSelected) {
 		SelectionMesh->SetVisibility(true);
-
 	}
 	else {
 
 		SelectionMesh->SetVisibility(false);
 	}
-
 }
 
 
 TArray<int> AVillagerLead::InitOceanDetails() {
-
 
 	Ocean = { 0, 1, 2, 3, 4 };
 
@@ -242,13 +197,4 @@ TArray<int> AVillagerLead::InitOceanDetails() {
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Aft %d, %d, %d, %d, %d"), Ocean[0], Ocean[1], Ocean[2], Ocean[3], Ocean[4]);
 	return Ocean;
-
-
-
-
-	//Divide a, b, c by sum
-	//Multiple a, b, c by given desired sum integer, and then round a, b, c to the nearest integer
-	//See if sum(a, b, c) == given integer ? get result : try again
-
 }
-

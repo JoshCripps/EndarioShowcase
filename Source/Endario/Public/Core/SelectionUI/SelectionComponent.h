@@ -7,12 +7,10 @@
 #include "Components/StaticMeshComponent.h"
 #include "Core/Enums/EndlingDetails/IncludeEndlingEnums.h"
 #include "Core/Villager/VillagerUnit.h"
-//#include "Core/Units/VillagerUnitBP.VillagerUnitBP"
-//Blueprint'/Game/Core/Units/VillagerUnitBP.VillagerUnitBP'
 #include "SelectionComponent.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class ENDARIO_API USelectionComponent : public UStaticMeshComponent
@@ -22,12 +20,11 @@ class ENDARIO_API USelectionComponent : public UStaticMeshComponent
 public:
 
 	USelectionComponent();
-//
 protected:
 
 	UPROPERTY(Category = "Endling Selection", BlueprintReadonly)
 	AActor* OwningActor;
-	
+
 	UPROPERTY(Category = "Endling Selection", BlueprintReadonly)
 	bool bIsSelected;
 
@@ -38,7 +35,7 @@ protected:
 
 	UPROPERTY(Category = "Endling Selection", BlueprintReadonly)
 	EEndlingSelectionSize EOwnerSize;
-	
+
 
 	UPROPERTY(Category = "Endling Material", BlueprintReadonly)
 	UMaterial* MaterialRefCharacter;
@@ -64,7 +61,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Endling Selection Setup")
 	void InitSelection(EEndlingType ERequestedEndlingType, EEndlingSelectionSize ERequestedSelectionSize);
 
-
 	// Getters
 	UFUNCTION(BlueprintCallable, Category = "Endling Selection")
 	bool GetSelection();
@@ -81,7 +77,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Endling Details")
 	virtual FEndlingBuildingDetails GetEndlingBuildingInfomation();
-
 
 	// Utility
 	UFUNCTION(BlueprintCallable, Category = "Endling Selection")

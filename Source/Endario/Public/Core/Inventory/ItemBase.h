@@ -10,7 +10,7 @@
 #include "ItemBase.generated.h"
 
 /**
- * 
+ *
  */
 USTRUCT(BlueprintType)
 struct FItemDataTable : public FTableRowBase
@@ -18,9 +18,6 @@ struct FItemDataTable : public FTableRowBase
 	GENERATED_BODY()
 
 public:
-
-
-
 
 	UPROPERTY(EditAnywhere, BlueprintReadonly)
 	FString ItemName;
@@ -33,7 +30,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadonly)
 	int ItemStack;
-
 
 	UPROPERTY(EditAnywhere, BlueprintReadonly)
 	FString ItemTooltipName;
@@ -60,20 +56,6 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category = "Item Variables")
 	int ItemID;
 
-	//UPROPERTY(BlueprintReadWrite, Category = "Item Variables")
-	//FString Name;
-
-	//// Convert to Enum
-	//UPROPERTY(BlueprintReadWrite, Category = "Item Variables")
-	//FString Type;
-
-	//// Convert to Enum
-	//UPROPERTY(BlueprintReadWrite, Category = "Item Variables")
-	//int StackLimit;
-
-	//UPROPERTY(BlueprintReadWrite, Category = "Item Variables")
-	//UTexture2D* Icon;
-
 	UPROPERTY(EditAnywhere, BlueprintReadonly)
 	UItemBase* ItemObject;
 
@@ -97,18 +79,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadonly)
 	FString ItemTooltipText;
-	
-
-
-	// Methods
 
 	// Inits
 	UFUNCTION(Category = "Item Inits")
 	void InitItem(FName ItemRowName);
 
 public:
-
-
 
 	//Getters
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Item Getters")
@@ -129,7 +105,6 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Item Getters")
 	int GetStack();
 
-
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Item Getters")
 	FString GetTooltipName();
 
@@ -139,10 +114,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Item Getters")
 	FString GetTooltipText();
 
-
-
 	// Utility
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Item Utility")
 	bool CheckItem(FString GivenItemName);
-
 };

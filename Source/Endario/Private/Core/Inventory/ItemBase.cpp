@@ -10,11 +10,7 @@ UItemBase::UItemBase() {
 
 
 // Inits
-
 void UItemBase::InitItem(FName ItemRowName) {
-
-
-	//UE_LOG(LogTemp, Warning, TEXT("Going to Test The DataTable Method!"));
 
 	UDataTable* CurrentTable;
 	TArray<FName> RowNames;
@@ -23,19 +19,7 @@ void UItemBase::InitItem(FName ItemRowName) {
 		CurrentTable = FoundTable.Object;
 
 		RowNames = CurrentTable->GetRowNames();
-		//UE_LOG(LogTemp, Warning, TEXT("DataTable Found Table!"));
-		//for (size_t i = 0; i < RowNames.Num(); i++) {
 
-		//	if (RowNames[i] == ItemRowName) {
-		//		// Success!
-
-		//		break;
-		//	}
-		//	UE_LOG(LogTemp, Warning, TEXT("Getting Row Names: %s"), *RowNames[i].ToString());
-		//}
-
-		//static FString ContextString(TEXT("Temporary Lala"));
-		//FItemDataTable* OutRow = CurrentTable->FindRow<FItemDataTable>(RowNames[0], "");
 		FItemDataTable* FoundRow = CurrentTable->FindRow<FItemDataTable>(ItemRowName, "");
 
 		if (FoundRow != nullptr) {
@@ -49,11 +33,8 @@ void UItemBase::InitItem(FName ItemRowName) {
 			ItemTooltipType = FoundRow->ItemTooltipType;
 			ItemTooltipText = FoundRow->ItemTooltipText;
 		}
-
-		//UE_LOG(LogTemp, Warning, TEXT("Found Row Name: %s"), *OutRow->ItemName);
 	}
 }
-
 
 // Getters
 int UItemBase::GetID() {
@@ -101,16 +82,6 @@ FString UItemBase::GetTooltipText() {
 	return ItemTooltipText;
 }
 
-//FString UItemBase::GetName() {
-//
-//	return Name;
-//}
-//
-//UTexture2D* UItemBase::GetIcon() {
-//
-//	return Icon;
-//}
-
 bool UItemBase::CheckItem(FString GivenItemName) {
 
 	if (this == nullptr) {
@@ -124,4 +95,3 @@ bool UItemBase::CheckItem(FString GivenItemName) {
 		return false;
 	}
 }
-

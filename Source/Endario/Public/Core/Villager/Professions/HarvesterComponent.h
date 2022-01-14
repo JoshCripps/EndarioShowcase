@@ -6,12 +6,9 @@
 #include "Core/Villager/Professions/ProfessionComponent.h"
 #include "HarvesterComponent.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class ENDARIO_API UHarvesterComponent : public UProfessionComponent
 {
 	GENERATED_BODY()
-	
+
 };

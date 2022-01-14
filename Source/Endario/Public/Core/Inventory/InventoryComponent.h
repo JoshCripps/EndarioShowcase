@@ -13,7 +13,7 @@ class ENDARIO_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
 	UInventoryComponent(int RequestedSlotLimit, int RequestedStackLimit);
@@ -22,11 +22,10 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
 public:
 	UPROPERTY(Category = "Inventory Slots", VisibleAnywhere, BlueprintReadOnly)
 	TArray<FItemStruct> InventorySlots;
@@ -37,7 +36,6 @@ public:
 	UPROPERTY(Category = "Inventory Details", VisibleAnywhere, BlueprintReadOnly)
 	int StackLimit;
 
-
 public:
 
 	// Inits
@@ -47,13 +45,9 @@ public:
 	UFUNCTION(BlueprintCallable , Category = "Inventory Setup")
 	bool FillInventory(UItemBase* RequestedItem, int RequestedQuantity);
 
-
-
 	// Getters
 	UFUNCTION(BlueprintCallable, Category = "Inventory Setup")
 	FItemStruct GetSlotData(int RequestedSlot);
-
-
 
 	// Setters
 	UFUNCTION(BlueprintCallable, Category = "Inventory Setup")
@@ -62,17 +56,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory Setup")
 	void SetStackLimit(int RequestedLimit);
 
-
-
-
-
-
-
-
 	// Utility
-
-	//FItemStruct TakeInventory(UItemBase* RequestedItem);
-
 	UFUNCTION(BlueprintCallable, Category = "Inventory Utility")
 	bool CollectItem(FString TransferableItemName, int TransferableQuantity, UInventoryComponent* GivingInventory, float& CurrentProgress);
 
@@ -85,10 +69,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory Utility")
 	bool AbsorbItem(FString TransferableItemName, int TransferableQuantity, UInventoryComponent* GivingInventory);
 
-
 	UFUNCTION(BlueprintCallable, Category = "Inventory Utility")
 	bool ModifyItemQuantitiy(FString TransferableItemName, int AdditionalQuantity);
-
 
 	// Supporting
 	UFUNCTION(BlueprintCallable, Category = "Inventory Supporting")
@@ -99,7 +81,6 @@ public:
 
 	UFUNCTION(Category = "Inventory Supporting")
 	void TakeItemFromInventory(FString TransferableItemName, int TransferableQuantity);
-
 
 	UFUNCTION(Category = "Inventory Supporting")
 	void GiveItemToInventory(FString TransferableItemName, int TransferableQuantity);

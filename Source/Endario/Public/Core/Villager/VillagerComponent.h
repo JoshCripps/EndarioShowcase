@@ -13,7 +13,7 @@ class ENDARIO_API UVillagerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UVillagerComponent();
 
@@ -21,28 +21,15 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-		
+
 	/** Get Attached Pawn */
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite)
 	AVillagerLead* VillagerOwner;
 
 
-
-//	// Widget Testing
-//public:
-//	//UMainGameInstance(const FObjectInitializer& ObjectInitializer);
-//
-//	virtual void InitWidgetUnit();
-//
-//	UFUNCTION(BlueprintCallable)
-//		void ShowWidgetUnit();
-//
-//private:
-//	TSubclassOf<class UUserWidget>UnitInfoWidgetClass;
-//	
 
 public:
 	// Methods
@@ -57,5 +44,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Villager HUD")
 	virtual void CallDisplayUnitHUD(AVillagerLead* HitActor, bool Bypass);
-	//virtual void CallDisplayUnitHUD(AVillagerLead* HitActor, bool Bypass);
 };

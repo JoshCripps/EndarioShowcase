@@ -13,5 +13,4 @@ enum class EEndlingClass : uint8 {
     Woodworker = 4        UMETA(DisplayName = "Woodworker"),
     Stonemason = 5        UMETA(DisplayName = "Stonemason"),
     Cook = 6              UMETA(DisplayName = "Cook"),
-    //Builder = 6    UMETA(DisplayName = "Builder"),
 };

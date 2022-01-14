@@ -7,13 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "VillagerLead.generated.h"
 
-// DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams();
-
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(CallDisplayUnitHUD, HitActor, AVillagerLead*, Bypass, bool)
-
-USTRUCT(BlueprintType)
-struct FUnitDetailsBU
-{
+USTRUCT(BlueprintType) struct FUnitDetailsBU {
 
 	GENERATED_BODY()
 
@@ -29,7 +23,7 @@ struct FUnitDetailsBU
 	int32 UnitStrength;
 	UPROPERTY(editAnywhere, BlueprintReadWrite)
 	TArray<int32> UnitOcean;
-	
+
 	// Default Constructor
 	FUnitDetailsBU() {
 		UnitName = "Name. Temp";
@@ -39,13 +33,9 @@ struct FUnitDetailsBU
 		UnitStrength = 0;
 		UnitOcean = { 0, 0, 0, 0, 0 };
 	}
-	//int arrayMarks[4];
-
-	//double avgMarks;
-
 };
 
-// Preventing Circular Dependency (1)
+// Circular Dependency Prevention
 class UVillagerComponent;
 
 UCLASS()
@@ -61,7 +51,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 
 	// Preventing Circular Dependency (2)
 	UPROPERTY(Category = "Actions Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -69,13 +59,6 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	// TEMP FOR EVENT DISPTACH
-	//UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	//CallDisplayUnitHUD DisplayingHUD;
 
 	// Attributes
 protected:
@@ -111,9 +94,6 @@ public:
 	// Temporary Static Mesh
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* SelectionMesh;
-
-	// Temporary Struct
-	//FUnitDetails UnitDetails;
 
 	// Inits
 	UFUNCTION(BlueprintCallable, Category = "Villager Details")

@@ -13,21 +13,20 @@ class ENDARIO_API UResourceComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
+
 	// Sets default values for this component's properties
 	UResourceComponent();
 
 protected:
+
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
+
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	/* Get Attached Actor? */
-
-
 
 public:
 
@@ -36,8 +35,7 @@ public:
 
 	UPROPERTY(Category = "Resource Variables: Villager", VisibleAnywhere, BlueprintReadWrite)
 	AVillagerUnit* EngagedVillager;
-	//UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite)
-		
+
 	// GETTERS
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Resource Villager")
 	FORCEINLINE AVillagerUnit* GetResourceVillager() { return EngagedVillager; }
@@ -45,6 +43,5 @@ public:
 	// SETTERS
 	UFUNCTION(BlueprintCallable, Category = "Resource Village")
 	virtual void SetResourceVillager(AVillagerUnit* VillagerToEngage);
-
 
 };

@@ -18,14 +18,11 @@
 #include "Core/Enums/EndlingDetails/StructureEndlingBuilding.h"
 
 // Buildings
-
 #include "Core/Enums/EndlingDetails/EndlingClassType.h"
 #include "Core/Enums/EndlingDetails/EndlingBuildingType.h"
 #include "Core/Enums/EndlingDetails/EndlingBuildingGroup.h"
 #include "Core/Enums/EndlingDetails/EndlingResourceType.h"
 
 // Interactions
-
 #include "Core/Enums/Interactions/EndlingBuildingInteractionType.h"
 #include "Core/Enums/Interactions/EndlingSelectionSize.h"
-

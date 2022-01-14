@@ -8,7 +8,7 @@
 #include "MainGameInstance.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class ENDARIO_API UMainGameInstance : public UGameInstance
@@ -17,7 +17,7 @@ class ENDARIO_API UMainGameInstance : public UGameInstance
 
 public:
 	UMainGameInstance(const FObjectInitializer& ObjectInitializer);
-	
+
 	virtual void Init();
 
 	UFUNCTION(BlueprintCallable)

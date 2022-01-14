@@ -20,11 +20,10 @@ APrimaryGameState::APrimaryGameState() {
 	Seconds = 0;
 
 	// Game Time
-
-
 	GameDayLength = 600.0f;
 	GameSegment = 0.0f;
 	GameDay = 0;
+
 	// Game Speed Settings
 	/*
 	* Real Time : GameSpeed = Time in Game
@@ -35,7 +34,6 @@ APrimaryGameState::APrimaryGameState() {
 	* 1hr : 150  = 1 Game Day
 	*/
 
-	//GameSpeed = 144;
 	GameSpeed = 1;
 
 	GameTime = (Hours + (Minutes / float(60.0f)) + (Seconds / float(3600.0f)));
@@ -45,7 +43,6 @@ APrimaryGameState::APrimaryGameState() {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
-	//Temporary
 	ECurrentTimeEvent = EGameTimeEvent::NormalRoutine;
 }
 
@@ -66,39 +63,19 @@ void APrimaryGameState::Tick(float DeltaTime) {
 		CalculateTime(DeltaTime, GameSpeed, GameTime, GameTime, DayCounter);
 		SetClockCalendar();
 		SetClockGame();
-
-
-		//UE_LOG(LogTemp, Warning, TEXT("Minutes: %d"), Minutes);
-		//UE_LOG(LogTemp, Warning, TEXT("Hours: %d"), Hours);
-		//UE_LOG(LogTemp, Warning, TEXT("Delta: %f"), DeltaTime);
-		//UE_LOG(LogTemp, Warning, TEXT("GameTime: %f"), GameTime);
 	}
 
-	//UE_LOG(LogTemp, Warning, TEXT("Gametime %f"), GameTime);
 }
 
-
 // Methods
-
 void APrimaryGameState::CalculateTime(float DeltaTime, float CurrentGameSpeed, float GameTimeIn, float& GameTimeOut, int& DayCounterOut) {
 
-	//UE_LOG(LogTemp, Warning, TEXT("GameTime Pre: %f"), GameTime);
 	if ( ((DeltaTime * CurrentGameSpeed) + GameTimeIn) >= GameDayLength) {
-
 		GameDay += 1;
 	}
 	GameTime = fmod(((DeltaTime * CurrentGameSpeed) + GameTimeIn), GameDayLength);
-	//GameTime = fmod(((DeltaTime * CurrentGameSpeed) + GameTimeIn), 600.0f);
-	//GameTime = fmod(((DeltaTime/ CurrentGameSpeed) + GameTimeIn), 24.0f);
-	//DayCounter = (((DeltaTime/ CurrentGameSpeed) + GameTimeIn), 24.0f); // Due to Int Casting
-
-	//GameDay = remainder(((DeltaTime * CurrentGameSpeed) + GameTimeIn), 600.0f);
-
-	//UE_LOG(LogTemp, Warning, TEXT("GameTime Post: %f"), GameTime);
-
 	GameTimeOut = GameTime; // For BPs
 	DayCounterOut = DayCounter; // For BPs
-
 }
 
 void APrimaryGameState::SetClockCalendar() {
@@ -125,7 +102,6 @@ void APrimaryGameState::SetClockCalendar() {
 		Years += 1;
 	}
 	SetDateTime(Years, Months, Days, Hours, Minutes, Seconds);
-
 }
 
 void APrimaryGameState::SetClockGame() {
@@ -160,38 +136,18 @@ void APrimaryGameState::SetClockGame() {
 		ECurrentTimeEvent = EGameTimeEvent::EveningBed;
 	}
 
-
-
 	if (ECurrentTimeDay != EOldTimeDay) {
-
 		OnGameTimeUpdated.Broadcast(ECurrentTimeDay);
 	}
 	if (ECurrentTimeEvent != EOldTimeEvent) {
-
 		OnGameEventUpdated.Broadcast(ECurrentTimeEvent);
 	}
 
 	EOldTimeDay = ECurrentTimeDay;
 	EOldTimeEvent = ECurrentTimeEvent;
-
-	
-
-
-
-	//GameSegment = fmod(GameTime / 10.0f);
-
-	//if (GameSegment >= 9.80f) {
-	//	GameDay += remainder(GameTime, 10.0f);
-	//}
-
-	//UE_LOG(LogTemp, Warning, TEXT("GameSegment: %f"), GameSegment);
-	//UE_LOG(LogTemp, Warning, TEXT("GameDay: %d"), GameDay);
-
 }
 
-
 void APrimaryGameState::SetDateTime(UPARAM(ref) int& Year, UPARAM(ref) int& Month, UPARAM(ref) int& Day, UPARAM(ref) int& Hour, UPARAM(ref) int& Minute, UPARAM(ref) int& Second) {
-
 
 	DateTimeStruct = (Year, Month, Day, Hour, Minute, Second);
 }
@@ -214,24 +170,6 @@ void APrimaryGameState::SkipTimeAhead(float RequestedJump, bool ForwardDirection
 		APrimaryGameState::GameTime += RequestedJump;
 	}
 	else {
-
 		APrimaryGameState::GameTime -= RequestedJump;
 	}
-
 }
-
-
-
-//// Utility
-//
-//void APrimaryGameState::GameTimeUpdateEvent() {
-//
-//
-//
-//	UE_LOG(LogTemp, Warning, TEXT("EVENT BABY"));
-//}
-
-//void APrimaryGameState::GameTimeUpdateEvent() {
-//
-//	UE_LOG(LogTemp, Warning, TEXT("EVENT BABY"));
-//}

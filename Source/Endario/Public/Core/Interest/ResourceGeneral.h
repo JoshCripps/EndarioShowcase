@@ -13,8 +13,8 @@ UCLASS()
 class ENDARIO_API AResourceGeneral : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AResourceGeneral();
 
@@ -22,7 +22,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -32,12 +32,8 @@ public:
 	UPROPERTY(Category = "Root Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		class USceneComponent* Root;
 
-
 	UPROPERTY(Category = "Model Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* BuildingModel;
-
-	//UPROPERTY(Category = "Building Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	//class UVillagerComponent* Actions;
 
 	UPROPERTY(Category = "Inventory Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		class UInventoryComponent* Inventory;
@@ -45,10 +41,8 @@ public:
 	UPROPERTY(Category = "Selection Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		class USelectionComponent* Selection;
 
-
-	UPROPERTY(Category = "Stimuli Source Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UAIPerceptionStimuliSourceComponent* StimuliSource;
-
+		UPROPERTY(Category = "Stimuli Source Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		class UAIPerceptionStimuliSourceComponent* StimuliSource;
 
 protected:
 
@@ -56,14 +50,10 @@ protected:
 	UPROPERTY(Category = "Endling Selection", BlueprintReadonly)
 	EEndlingResourceType EResourceType;
 
-
-
 public:
 
 	UPROPERTY(Category = "Resource Details", VisibleAnywhere, BlueprintReadWrite)
 	AVillagerUnit* EngagedVillager;
-
-
 
 	// GETTERS
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Resource Villager")
@@ -75,7 +65,6 @@ public:
 	// Setters
 	UFUNCTION(BlueprintCallable, Category = "Resource Details")
 	void SetResourceType(EEndlingResourceType ERequestedType);
-
 
 	// SETTERS
 	UFUNCTION(BlueprintCallable, Category = "Resource Village")

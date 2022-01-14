@@ -19,7 +19,6 @@ class ENDARIO_API APrimaryGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 
-
 public:
 	// Constructor
 	APrimaryGameState();
@@ -28,14 +27,13 @@ protected:
 	// Beginplay
 	virtual void BeginPlay() override;
 
-public: 
+public:
 	// Tick
 	virtual void Tick(float DeltaTime) override;
 
 
 // Attributes
 protected:
-	// Controller REF - DO later
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Calender")
 	int Years;
@@ -88,14 +86,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Speed Settings")
 	FDateTime DateTimeStruct;
 
-
 	// Delegates
 	UPROPERTY(BlueprintAssignable, Category = "Game Time Event")
 	FGameTimeUpdate OnGameTimeUpdated;
 
 	UPROPERTY(BlueprintAssignable, Category = "Game Time Event")
 	FGameEventUpdate OnGameEventUpdated;
-
 
 public:
 
@@ -125,7 +121,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Game Time")
 	virtual void SkipTimeAhead(float RequestedJump, bool FowardDirection);
-
-
-
 };

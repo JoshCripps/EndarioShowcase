@@ -17,8 +17,8 @@ UCLASS()
 class ENDARIO_API ABuildingGeneral : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ABuildingGeneral();
 
@@ -26,7 +26,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -34,8 +34,8 @@ public:
 public:
 
 	// Preventing Circular Dependency (2)
-	// 
-	// 	   
+	//
+	//
 	UPROPERTY(Category = "Root Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class USceneComponent* Root;
 
@@ -43,19 +43,13 @@ public:
 	UPROPERTY(Category = "Model Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* BuildingModel;
 
-	//UPROPERTY(Category = "Building Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	//class UVillagerComponent* Actions;
-
 	UPROPERTY(Category = "Inventory Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UInventoryComponent* Inventory;
 
 	UPROPERTY(Category = "Selection Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class USelectionComponent* Selection;
 
-
-
 protected:
-
 
 	// Attributes
 	UPROPERTY(Category = "Endling Building", BlueprintReadonly)
@@ -69,10 +63,7 @@ protected:
 	UPROPERTY(Category = "Endling Building", BlueprintReadonly)
 	EEndlingBuildingInteractionType EBuildingInteraction;
 
-
-
 public:
-
 
 	// Getters
 	UFUNCTION(Category = "Building Getters", BlueprintCallable)
@@ -83,7 +74,6 @@ public:
 
 	UFUNCTION(Category = "Building Getters", BlueprintCallable)
 	FORCEINLINE EEndlingBuildingInteractionType GetBuildingInteraction() { return EBuildingInteraction; }
-
 
 	// Setters
 	UFUNCTION(BlueprintCallable, Category = "Building Details")

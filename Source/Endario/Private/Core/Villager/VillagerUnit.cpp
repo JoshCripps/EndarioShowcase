@@ -1,6 +1,5 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Core/Villager/VillagerUnit.h"
 //#include "FunctionLibrary.h"
 #include "CoreMinimal.h"
@@ -19,78 +18,62 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include <time.h>
 
-//// Function For Enum Conversion...
-//const FString EnumToString(const TCHAR* Enum, int32 EnumValue)
-//{
-//	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, Enum, true);
-//	if (!EnumPtr)
-//		return NSLOCTEXT("Invalid", "Invalid", "Invalid").ToString();
-//
-//#if WITH_EDITOR
-//	return EnumPtr->GetValueAsString(EnumValue);
-//#else
-//	return EnumPtr->GetEnumName(EnumValue);
-//#endif
-//}
-
-// Sets default values
-AVillagerUnit::AVillagerUnit()
+// Function For Enum Conversion...
+const FString EnumToString(const TCHAR* Enum, int32 EnumValue)
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, Enum, true);
+	if (!EnumPtr)
+		return NSLOCTEXT("Invalid", "Invalid", "Invalid").ToString();
+
+#if WITH_EDITOR
+	return EnumPtr->GetValueAsString(EnumValue);
+#else
+	return EnumPtr->GetEnumName(EnumValue);
+#endif
+}
+
+AVillagerUnit::AVillagerUnit() {
+
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Set Root Component and also set root comp's size.
-	//CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
-	//SetRootComponent(CapsuleComponent);
-	//CollisionSphere->InitSphereRadius(32.0);
-	//CollisionSphere->SetWorldScale3D(FVector(0.25, 0.25, 0.25));
+	CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
+	SetRootComponent(CapsuleComponent);
+	CollisionSphere->InitSphereRadius(32.0);
+	CollisionSphere->SetWorldScale3D(FVector(0.25, 0.25, 0.25));
 
-	//CollisionSphere->SetCollisionProfileName(TEXT("IgnoreOnlyPawn"));
-	//this->GetCapsuleComponent()->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
+	CollisionSphere->SetCollisionProfileName(TEXT("IgnoreOnlyPawn"));
+	this->GetCapsuleComponent()->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 	this->GetCapsuleComponent()->SetCollisionProfileName(TEXT("VillagerPassThrough"));
-	//this->GetCapsuleComponent()->SetCapsuleHalfHeight(50.0f);
+	this->GetCapsuleComponent()->SetCapsuleHalfHeight(50.0f);
 
-	//this->GetCapsuleComponent()->SetAbsolute()
+	this->GetCapsuleComponent()->SetAbsolute()
 
 	// More Temporary Mesh Things
 	BaseMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Villager Base Mesh"));
-	//BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Villager Base Mesh"));
-	//SetRootComponent(BaseMesh);
+	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Villager Base Mesh"));
+	SetRootComponent(BaseMesh);
 
 	float capHeight = this->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
 
 	// Find and Assign Mesh
 	auto MeshAsset = ConstructorHelpers::FObjectFinder<USkeletalMesh>(TEXT("SkeletalMesh'/Game/Models/Villagers/Initial/VillagerInitialWalking.VillagerInitialWalking'"));
-	//auto MeshAsset = ConstructorHelpers::FObjectFinder<USkeletalMesh>(TEXT("SkeletalMesh'/Game/Models/Villagers/VillagerNearlyMesh.VillagerNearlyMesh'"));
-	//auto MeshAsset = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/Models/Villagers/VillagerTempMesh.VillagerTempMesh'"));
 	if (MeshAsset.Object != nullptr)
 	{
-		//BaseMesh->SetWorldScale3D(FVector(30.0f, 30.0f, 30.0f));
 		BaseMesh->SetSkeletalMesh(MeshAsset.Object);
 		BaseMesh->SetWorldScale3D(FVector(0.3f, 0.3f, 0.3f));
-		//BaseMesh->SetStaticMesh(MeshAsset.Object);
 		BaseMesh->SetupAttachment(GetCapsuleComponent());
 		BaseMesh->SetRelativeLocation(FVector(0.0f, 00.0f, -capHeight));
 		BaseMesh->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
-		//BaseMesh->SetAbsoluteLo(FVector(0.0f, 0.0f, 0.0f));
 	}
 
-	//SelectionComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Villager Selection Mesh"));
-	////UStaticMeshComponent* SelectionMesh;
+	SelectionComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Villager Selection Mesh"));
 
-	//// Find and Assign Mesh
-	////auto MeshAsset2 = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/Models/Decals/SelectedCube.SelectedCube'"));
-	//if (MeshAsset2.Object != nullptr)
-	//{
-	//	SelectionMesh->SetStaticMesh(MeshAsset2.Object);
-	//	SelectionMesh->SetupAttachment(BaseMesh);
-	//	//SelectionMesh->SetWorldScale3D(FVector(0.01f, 0.01f, 0.01f));
-
-	//	//SelectionMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 4.0f));
-
-	//	//SelectionMesh->SetVisibility(false);
-	//}
-
+	// Find and Assign Mesh
+	if (MeshAsset2.Object != nullptr)	{
+		SelectionMesh->SetStaticMesh(MeshAsset2.Object);
+		SelectionMesh->SetupAttachment(BaseMesh);
+	}
 
 	StatusMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Villager Status Mesh"));
 
@@ -108,84 +91,34 @@ AVillagerUnit::AVillagerUnit()
 		StatusMesh->SetVisibility(false);
 	}
 
-	//StatusMesh
-
-	// Set Smooth Rotation Parameters
-	// 
+	// StatusMesh
 	this->bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	//GetCharacterMovement()->RotationRate = ;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 100.0f, 0.0f);
-	
-
-
-
-	//character->CharacterMovement
-
-	//disable "use controller rotation yaw" (from actor(pawn) properties itself)
-
-	//enable "orient rotation to movement" (from character movement component)
-
-	//and change the speed of rotation by "rotation rate" properties(from character movement component, you have to change the "Yaw" value)
-
-	//more ▼
-	//answered Mar 20 '15 at 10:11 AM
-
-	//avatar image
-	//ibr_ozdemir
-	//116 ● 4 ● 104 ● 16
-
-	//avatar image beanhome
-
 
 	// Connect AI Controller
-	//auto CustomAIController = ConstructorHelpers::FObjectFinder<AController>(TEXT("Blueprint'/Game/Core/DebugAndTest/TEST_AIController.TEST_AIController'"));
+	auto CustomAIController = ConstructorHelpers::FObjectFinder<AController>(TEXT("Blueprint'/Game/Core/DebugAndTest/TEST_AIController.TEST_AIController'"));
 
 	static ConstructorHelpers::FObjectFinder<UBlueprint> AICon(TEXT("Blueprint'/Game/Core/DebugAndTest/AI/TEST_UnitAIController.TEST_UnitAIController'"));
 	AIControllerClass = AICon.Object->GeneratedClass;
-	//this->AIControllerClass = AIControllerClass::StaticClass();
-
-	//getaicontroll
-	//Blueprint'/Game/Core/DebugAndTest/TEST_AIController.TEST_AIController'
-
-	
-	// Details
-
-	// Get Random Gender
-	
-	// Add Back in for Women
-	//Gender = static_cast<EEndlingGender>(FMath::RandRange(0, 1));
 	Gender = EEndlingGender::Male;
-
 
 	if (Gender == EEndlingGender::Male) {
 		UE_LOG(LogTemp, Warning, TEXT("Gender Male"));
 
-
-		// Hack PLEASE FIX
 		FirstName = UEnum::GetValueAsString( static_cast<EEndlingMaleFirstName>(FMath::RandRange(0, 25)) ).RightChop(23);
 		LastName = UEnum::GetValueAsString( static_cast<EEndlingMaleLastName>(FMath::RandRange(0, 25)) ).RightChop(22);
-
-
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Gender Female"));
 
-		// Hack PLEASE FIX
 		FirstName = StaticEnum<EEndlingFemaleFirstName>()->GetValueAsString(static_cast<EEndlingFemaleFirstName>(FMath::RandRange(0, 25))).RightChop(25);
 		LastName = StaticEnum<EEndlingFemaleLastName>()->GetValueAsString(static_cast<EEndlingFemaleLastName>(FMath::RandRange(0, 25))).RightChop(24);
-
 	}
 
-	// -> Assign Name Based on Gender
-	//FirstName = "Wendy";
-	//LastName = "Bummer";
-
-
-	// Class and Ocean Traits	
+	// Class and Ocean Traits
 	Class = EEndlingClass::Unassigned;
 	Ocean = InitOceanDetails();
-
 
 	// Status Bars
 	EnergyMax = 100.0f;
@@ -196,119 +129,77 @@ AVillagerUnit::AVillagerUnit()
 	ExperienceMax = 100.0f;
 	ExperienceLevel = 1;
 
-
-
-	// Set up Random Values for Ocean Personality
-	//= FMath::RandRange(1, 10);
-
-
-
-
-	// Attach Villager Component : Preventing Circular Dependency (3)
+	// Attach Villager Component
 	Actions = CreateDefaultSubobject<UVillagerComponent>(TEXT("LeadVillagerActionsComponent"));
 	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
 	Selection = CreateDefaultSubobject<USelectionComponent>(TEXT("Selection"));
 	Profession = CreateDefaultSubobject<UProfessionComponent>(TEXT("Profession"));
 
-	//InitSelection(this);
-
 	Inventory->InitInventory(4, 10);
 	Selection->InitSelection(EEndlingType::Unit, EEndlingSelectionSize::Character);
 	Selection->SetRelativeLocation(FVector(0.0f, 0.0f, -90.0f));
 
-
-	// Profession
-
-
-
-	//SelectionComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Villager Selection Mesh"));
-
-
-
 	// Widget Stuff
-	//static ConstructorHelpers::FClassFinder<UUserWidget>UnitStatus(TEXT("WidgetBlueprint'/Game/Widgets/StatusVillager.StatusVillager'"));
-	//static ConstructorHelpers::FClassFinder<UUserWidget>UnitStatus(TEXT("WidgetBlueprint'/Game/Widgets/StatusVillagerTemp.StatusVillagerTemp'"));
-	////if (!ensure(UnitStatus.Class != nullptr)) {
-	//	//UE_LOG(LogTemp, Warning, TEXT("No Widget as class is null"));
-	////}
-	// 
-	//Status = CreateDefaultSubobject<UWidgetComponent>(TEXT("Status"));
-
-	//Status->SetWidgetClass(UnitStatus.Class);
-	//Status->SetVisibility(true);
-	//Status->SetupAttachment(BaseMesh);
-	//Status->SetRelativeLocation(FVector(0.0f, 0.0f, 800.0f));
-	////Status->SetRelativeLocation(FVector(0.0f, 0.0f, 150.0f));
-	////Status->SetWorldScale3D(FVector(1.0f, 1.0f, 1.0f));
-	//Status->SetRelativeScale3D(FVector(0.01f, 0.001f, 0.01f));
-
-	////Status->execSetWidgetSpace();
-	//Status->SetWidgetSpace(EWidgetSpace::Screen);
-	//Status->SetDrawSize(FVector2D(120, 12));
-
-	//WidgetBlueprint'/Game/Widgets/StatusVillager.StatusVillager'
-	// Sets default values
-	//ASelectableActor::ASelectableActor()
-	//{
-	//	MyWidget = CreateDefaultSubobject<UWidgetComponent>("Widget");
-	//	static ConstructorHelpers::FClassFinder<UUserWidget> hudWidgetObj(TEXT("/Game/HUD/SelectableActorHUD_Widget"));
-	//	if (hudWidgetObj.Succeeded()) {
-	//		hudWidgetClass = hudWidgetObj.Class;
-	//	}
-	//	else {
-	//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "SelectableActorHUD not found !");
-	//		hudWidgetClass = nullptr;
-	//	}
-	//	MyWidget->SetWidgetSpace(EWidgetSpace::World);
-	//	MyWidget->SetWidgetClass(hudWidgetClass);
-	//	MyWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-	//	MyWidget->SetDrawSize(FVector2D(100.0f, 20.0f));
-	//	MyWidget->SetVisibility(true);
-	//	MyWidget->RegisterComponent();
-
+	static ConstructorHelpers::FClassFinder<UUserWidget>UnitStatus(TEXT("WidgetBlueprint'/Game/Widgets/StatusVillager.StatusVillager'"));
+	static ConstructorHelpers::FClassFinder<UUserWidget>UnitStatus(TEXT("WidgetBlueprint'/Game/Widgets/StatusVillagerTemp.StatusVillagerTemp'"));
+	//if (!ensure(UnitStatus.Class != nullptr)) {
+		//UE_LOG(LogTemp, Warning, TEXT("No Widget as class is null"));
 	//}
 
+	Status = CreateDefaultSubobject<UWidgetComponent>(TEXT("Status"));
 
-	//StatusVillagerWidgetClass = UnitStatus.Class;
-	//Status = CreateWidget<UUserWidget>(GetOwner(), StatusVillagerWidgetClass);
-	//Status = CreateWidget<UUserWidget>(this, StatusVillagerWidgetClass);
+	Status->SetWidgetClass(UnitStatus.Class);
+	Status->SetVisibility(true);
+	Status->SetupAttachment(BaseMesh);
+	Status->SetRelativeLocation(FVector(0.0f, 0.0f, 800.0f));
+	Status->SetRelativeScale3D(FVector(0.01f, 0.001f, 0.01f));
 
-	// Intialise Inventory
-	//INIT INVENTORY
+	Status->SetWidgetSpace(EWidgetSpace::Screen);
+	Status->SetDrawSize(FVector2D(120, 12));
 
+	WidgetBlueprint'/Game/Widgets/StatusVillager.StatusVillager'
+	Sets default values
+	ASelectableActor::ASelectableActor() {
+		MyWidget = CreateDefaultSubobject<UWidgetComponent>("Widget");
+		static ConstructorHelpers::FClassFinder<UUserWidget> hudWidgetObj(TEXT("/Game/HUD/SelectableActorHUD_Widget"));
+		if (hudWidgetObj.Succeeded()) {
+			hudWidgetClass = hudWidgetObj.Class;
+		}
+		else {
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "SelectableActorHUD not found !");
+			hudWidgetClass = nullptr;
+		}
+		MyWidget->SetWidgetSpace(EWidgetSpace::World);
+		MyWidget->SetWidgetClass(hudWidgetClass);
+		MyWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+		MyWidget->SetDrawSize(FVector2D(100.0f, 20.0f));
+		MyWidget->SetVisibility(true);
+		MyWidget->RegisterComponent();
+	}
 
-
-
-	// CONSTRUCT WOOD LOGS (DONT NEED)
-
-	// FILL INVENTORY
-
+	StatusVillagerWidgetClass = UnitStatus.Class;
+	Status = CreateWidget<UUserWidget>(GetOwner(), StatusVillagerWidgetClass);
+	Status = CreateWidget<UUserWidget>(this, StatusVillagerWidgetClass);
 }
 
 // Called when the game starts or when spawned
-void AVillagerUnit::BeginPlay()
-{
+void AVillagerUnit::BeginPlay() {
 	Super::BeginPlay();
-	
-
 }
 
 // Called every frame
-void AVillagerUnit::Tick(float DeltaTime)
-{
+void AVillagerUnit::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
-//void AVillagerUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-//{
-//	Super::SetupPlayerInputComponent(PlayerInputComponent);
+// void AVillagerUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+// {
+// 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 //
-//}
+// }
 
 TArray<int> AVillagerUnit::InitOceanDetails() {
-
 
 	Ocean = { 0, 1, 2, 3, 4 };
 
@@ -401,14 +292,6 @@ TArray<int> AVillagerUnit::InitOceanDetails() {
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Aft %d, %d, %d, %d, %d"), Ocean[0], Ocean[1], Ocean[2], Ocean[3], Ocean[4]);
 	return Ocean;
-
-
-
-
-	//Divide a, b, c by sum
-	//Multiple a, b, c by given desired sum integer, and then round a, b, c to the nearest integer
-	//See if sum(a, b, c) == given integer ? get result : try again
-
 }
 
 //
@@ -446,7 +329,7 @@ TArray<int> AVillagerUnit::InitOceanDetails() {
 //}
 
 FString AVillagerUnit::GetFirstName() {
-	
+
 	return FirstName;
 }
 
@@ -505,8 +388,6 @@ int AVillagerUnit::GetExperienceLevel() {
 	return ExperienceLevel;
 }
 
-
-
 // Setters
 void AVillagerUnit::SetProfession(EEndlingClass ERequestedClass) {
 
@@ -529,7 +410,6 @@ void AVillagerUnit::SetProfession(EEndlingClass ERequestedClass) {
 	//}
 
 	Profession->SetVillagerClassInfo(ERequestedClass);
-
 }
 
 

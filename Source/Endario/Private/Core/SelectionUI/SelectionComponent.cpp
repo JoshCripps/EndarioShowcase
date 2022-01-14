@@ -1,11 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Core/SelectionUI/SelectionComponent.h"
 #include "Core/Interest/ResourceGeneral.h"
 #include "Core/Building/BuildingGeneral.h"
 #include "GameFramework/Actor.h"
-
 
 USelectionComponent::USelectionComponent () {
 
@@ -41,7 +39,6 @@ USelectionComponent::USelectionComponent () {
 
 	static ConstructorHelpers::FObjectFinder<UMaterial> MaterialAssetMediumResource(TEXT("UMaterial'/Game/Models/Decals/Selection/DecalMediumResource_Mat.DecalMediumResource_Mat'"));
 	MaterialRefMediumResource = MaterialAssetMediumResource.Object;
-
 }
 
 void USelectionComponent::InitSelection(EEndlingType ERequestedEndlingType, EEndlingSelectionSize ERequestedSelectionSize) {
@@ -50,23 +47,17 @@ void USelectionComponent::InitSelection(EEndlingType ERequestedEndlingType, EEnd
 	EOwnerType = ERequestedEndlingType;
 	EOwnerSize = ERequestedSelectionSize;
 
-
 	this->SetVisibility(true);
 
-	//  Get Height of Actor 
+	//  Get Height of Actor
 	OwningActor = Cast<AActor>(GetOwner());
 	USelectionComponent* CurrentComponent = Cast<USelectionComponent>(this);
-
-	//OwningActor->Get
-	//OwningActor->InitOceanDetails
-	//CharacteerActor = Cast<AVillagerUnit>(OwningActor);
 
 	if (OwningActor != nullptr) {
 
 		FVector ActorOrigin;
 		FVector ActorExtent;
 		OwningActor->GetActorBounds(true, ActorOrigin, ActorExtent, true);
-		//this->AttachToComponent(OwningActor->GetRootComponent());
 		if (CurrentComponent->IsRegistered()) {
 
 		}
@@ -74,15 +65,6 @@ void USelectionComponent::InitSelection(EEndlingType ERequestedEndlingType, EEnd
 			this->SetupAttachment(OwningActor->GetRootComponent());
 		}
 
-		// New Height for the box
-		//float NewBoxHeight = (ActorExtent[2] > 0.0f) ? ActorExtent[2] * 4.0f : 120.0f;
-		//UE_LOG(LogTemp, Warning, TEXT("Uno:  %f"), ActorExtent[0]);
-		//UE_LOG(LogTemp, Warning, TEXT("Dos:  %f"), ActorExtent[1]);
-		//UE_LOG(LogTemp, Warning, TEXT("Tres: %f"), ActorExtent[2]);
-
-		//this->SetRelativeLocation(FVector(0.0f, 20.0f, 0.0f));
-
-		//this->SetRelativeLocation(FVector(0.0f, 0.0f, NewBoxHeight));
 		this->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 
 		if (EOwnerSize == EEndlingSelectionSize::Character) {
@@ -115,25 +97,12 @@ void USelectionComponent::InitSelection(EEndlingType ERequestedEndlingType, EEnd
 			this->SetMaterial(0, MaterialRefMediumResource);
 			this->SetRelativeScale3D(FVector(8.33f, 8.33f, 8.33f));
 		}
-		//this->SetRelativeS(FVector(0.0f, 0.0f, NewBoxHeight));
 
-
-		//this->SetRelativeLocation(FVector(0.0f, NewBoxHeight, 0.0f));
-
-		//this->SetRelativeLocation(FVector(10000.0f, NewBoxHeight, 0.0f));
-		//UE_LOG(LogTemp, Warning, TEXT("Consturctting Prev Selection Component: %s"), *FString(CurrentComponent->GetVisibleFlag() ? "TRUE" : "FALSE"));
 		CurrentComponent->SetVisibility(false);
-
-		//FString temptemp = ;
-		//UE_LOG(LogTemp, Warning, TEXT("Consturctting Curr Selection Component: %s"), *FString(CurrentComponent->GetName()));
-		//UE_LOG(LogTemp, Warning, TEXT("Consturctting Next Selection Component: %s"), *FString(CurrentComponent->GetVisibleFlag() ? "TRUE" : "FALSE"));
 	}
-
 }
 
-
 // Getters
-
 bool USelectionComponent::GetSelection() {
 
 	return bIsSelected;
@@ -155,23 +124,6 @@ FEndlingUnitDetails USelectionComponent::GetEndlingUnitInfomation() {
 
 	AVillagerUnit* CurrentUnit = Cast<AVillagerUnit>(OwningActor);
 
-	//ConstructorHelpers::FClassFinder<ACharacter>
-	//CharacterBPClassFinder(TEXT("Blueprint'/Game/Core/Units/VillagerUnitBP.VillagerUnitBP'"));
-
-	//TSubclassOf<ACharacter> VillagerUnitBP = CharacterBPClassFinder.Class;
-
-	//VillagerUnitBP CurrentUnit2 = Cast<VillagerUnitBP>(OwningActor);
-
-	//static ConstructorHelpers::FObjectFinder<UBlueprint> VillagerUnitBP(TEXT("Blueprint'/Game/Core/Units/VillagerUnitBP.VillagerUnitBP'"));
-	//if (VillagerUnitBP.Object != NULL)
-	//{
-	//	TSubclassOf<AVillagerUnit> VillagerUnitBP = (UClass*)VillagerUnitBP.Object->GeneratedClass;
-	//}
-
-
-
-	//AVillagerUnitBP* CurrentUnit = Cast<AVillagerUnitBP>(OwningActor);
-
 	if (CurrentUnit != nullptr) {
 
 		FEndlingUnitDetails CurrentDetails;
@@ -181,9 +133,6 @@ FEndlingUnitDetails USelectionComponent::GetEndlingUnitInfomation() {
 		CurrentDetails.UnitGender = CurrentUnit->GetGender();
 		CurrentDetails.UnitClass = CurrentUnit->GetClass();
 		CurrentDetails.UnitOcean = CurrentUnit->GetOcean();
-
-		//TempDeets.UnitFirstName = this;??ps";
-
 
 		if (CurrentUnit->GetClass() == EEndlingClass::Lumberjack ||
 			CurrentUnit->GetClass() == EEndlingClass::Miner ||
@@ -202,17 +151,12 @@ FEndlingUnitDetails USelectionComponent::GetEndlingUnitInfomation() {
 			UE_LOG(LogTemp, Warning, TEXT("Class is a Unassigned??"));
 		}
 
-
-
-		//UE_LOG(LogTemp, Warning, TEXT("HI JOSH %s"), *FString(TempDeets.UnitFirstName));
-
 		return CurrentDetails;
 	}
 	else {
 		FEndlingUnitDetails Temporary;
 		return Temporary;
 	}
-
 }
 
 FEndlingResourceDetails USelectionComponent::GetEndlingResourceInfomation() {
@@ -250,8 +194,6 @@ FEndlingBuildingDetails USelectionComponent::GetEndlingBuildingInfomation() {
 	return TempDeets;
 }
 
-
-
 // Utility
 
 void USelectionComponent::ToggleSelection(bool bNewSelected) {
@@ -259,5 +201,3 @@ void USelectionComponent::ToggleSelection(bool bNewSelected) {
 	bIsSelected = bNewSelected;
 	this->SetVisibility(bIsSelected);
 }
-
-

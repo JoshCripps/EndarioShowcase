@@ -11,8 +11,7 @@
 class UCameraMovementComponent;
 
 UCLASS()
-class ENDARIO_API ACameraPawn : public APawn
-{
+class ENDARIO_API ACameraPawn : public APawn {
 	GENERATED_BODY()
 
 public:
@@ -23,21 +22,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 
-	// Camera Movement Component declaration will go here 
-	// Cheating to Prevent Circular Dependency (2)
+	// Camera Movement Component declaration will go here
+	// Circular Dependency Prevention
 	UPROPERTY(Category = "Movement Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UCameraMovementComponent* PawnMovementComponent;
 
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Dont need for now 
-	// Called to bind functionality to input
-
-	// virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 // Attributes
 protected:
@@ -52,7 +45,7 @@ protected:
 	/** SpringArm or CameraArm */
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = "Camera")
 	class USpringArmComponent* CameraArm;
-	
+
 	/** Default CameraArm Length */
 	UPROPERTY(Category = "Movement Variables: Zoom", BlueprintReadonly)
 	float DefaultZoomLength;
@@ -60,10 +53,8 @@ protected:
 	/** Default Rotation */
 	UPROPERTY(Category = "Movement Variables: Zoom", BlueprintReadonly)
 	FRotator DefaultCameraRotation;
+public:
 
-
-
-public: 
 	// Getters
 	/** Returns Camera */
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Getters")
@@ -76,12 +67,10 @@ public:
 	/** Returns Length of CameraArm */
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Camera Zoom")
 	float GetCurrentArmLength();
-			
 
 	/** Returns Rotation of CameraArm */
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Camera Zoom")
 	FRotator GetCurrentRotation();
-
 
 	// Setters
 	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
@@ -89,11 +78,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
 	virtual void SetArmRotation(FRotator ChangeAmount);
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
 	virtual void SetToDefaultZoom();
-
-	// Could add Field of View
-
-
 };

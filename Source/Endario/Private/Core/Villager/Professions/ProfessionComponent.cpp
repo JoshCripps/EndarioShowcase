@@ -6,13 +6,8 @@
 #include "Core/Inventory/ItemStruct.h"
 
 // Sets default values for this component's properties
-UProfessionComponent::UProfessionComponent()
-{
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
+UProfessionComponent::UProfessionComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 
 	EVillagerClass = EEndlingClass::Lumberjack;
 
@@ -27,32 +22,22 @@ UProfessionComponent::UProfessionComponent()
 
 
 // Called when the game starts
-void UProfessionComponent::BeginPlay()
-{
+void UProfessionComponent::BeginPlay() {
 	Super::BeginPlay();
-
-	// ...
-	
 }
-
 
 // Called every frame
-void UProfessionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
+void UProfessionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
-
-
 // Setters
-//void UProfessionComponent::SetVillagerClassInfo(EEndlingClass ERequestedClass, EEndlingResourceType ERequestedResource, EEndlingBuildingType ERequestedBuilding) {
-//
-//	EVillagerClass = ERequestedClass;
-//	EVillagerInterest = ERequestedResource;
-//	EVillagerBuilding = ERequestedBuilding;
-//}
+void UProfessionComponent::SetVillagerClassInfo(EEndlingClass ERequestedClass, EEndlingResourceType ERequestedResource, EEndlingBuildingType ERequestedBuilding) {
+
+	EVillagerClass = ERequestedClass;
+	EVillagerInterest = ERequestedResource;
+	EVillagerBuilding = ERequestedBuilding;
+}
 
 // Setters
 void UProfessionComponent::SetVillagerClassInfo(EEndlingClass ERequestedClass) {
@@ -78,7 +63,6 @@ void UProfessionComponent::SetVillagerClassInfo(EEndlingClass ERequestedClass) {
 		EVillagerClassType = EEndlingClassType::Harvester;
 	}
 
-
 	// For Harvesters
 	if (EVillagerClassType == EEndlingClassType::Harvester) {
 
@@ -101,8 +85,6 @@ void UProfessionComponent::SetVillagerClassInfo(EEndlingClass ERequestedClass) {
 			NameItemOutput = FName(TEXT("RawBerries"));
 		}
 	}
-
-
 
 	// For Refiners
 	if (EVillagerClassType == EEndlingClassType::Refiner) {
@@ -135,8 +117,4 @@ void UProfessionComponent::SetVillagerClassInfo(EEndlingClass ERequestedClass) {
 			NameItemOutput = FName(TEXT("CookedBerries"));
 		}
 	}
-
-
-
-
 }

@@ -31,10 +31,6 @@ struct FEndlingUnitDetails
 	FEndlingUnitDetails() {
 		UnitFirstName = "First. Temp";
 		UnitLastName = "Last. Temp";
-		//UnitGender = "Gender. Temp";
-		//UnitClass = "Class. Temp";
-		//UnitGender = "Gender. Temp";
-		//UnitClass = "Class. Temp";
 		UnitOcean = { 0, 0, 0, 0, 0 };
 	}
 

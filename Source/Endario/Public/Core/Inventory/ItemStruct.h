@@ -10,20 +10,11 @@
 #include "ItemStruct.generated.h"
 
 /**
- * 
+ *
  */
-//class ENDARIO_API ItemStruct
-//{
-//public:
-//	ItemStruct();
-//	~ItemStruct();
-//};
-
 USTRUCT(BlueprintType)
 struct FItemStruct {
-
 	GENERATED_USTRUCT_BODY();
-
 
 public:
 
@@ -33,20 +24,14 @@ public:
 	FItemStruct(UItemBase* RequestedItem, int RequestedQuantity);
 
 //protected:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 	UItemBase* Item;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 	int Quantity;
 
-
 public:
 
 	//// Getters
-
-
 	//// Setters
-	//UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Camera Location")
-	//FItemStruct* SetItem(FString RequestedName, int RequestedQuantity);
 };

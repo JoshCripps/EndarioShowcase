@@ -12,11 +12,9 @@ struct FResourceItem {
 
 	UPROPERTY(BlueprintReadWrite, Category = Variables)
 	FString Name;
-	
+
 	// Convert to Enum
 	UPROPERTY(BlueprintReadWrite, Category = Variables)
 	FString Type;
-
-	//FString Type;
 
 };

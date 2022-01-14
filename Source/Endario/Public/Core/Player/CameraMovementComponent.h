@@ -13,7 +13,7 @@ class ENDARIO_API UCameraMovementComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UCameraMovementComponent();
 
@@ -21,7 +21,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
@@ -42,7 +42,6 @@ protected:
 	UPROPERTY(Category = "Movement Variables: Bools", BlueprintReadOnly)
 	bool bDisableCameraMovement;
 
-
 	// Movement Speeds
 	/** How Fast the Camera Moves */
 	UPROPERTY(Category = "Movement Variables: Movement Speeds", BlueprintReadOnly)
@@ -51,7 +50,6 @@ protected:
 	/** Modifies the default movemnet speed when called */
 	UPROPERTY(Category = "Movement Variables: Movement Speeds", BlueprintReadOnly)
 	float MovementSpeedModifier;
-
 
 	// Camera Direction
 	/** Gets Forward Direction of Camera Pawn */
@@ -66,12 +64,10 @@ protected:
 	/** Amount Camera Arm Changes */
 	UPROPERTY(Category = "Movement Variables: Zoom", BlueprintReadOnly)
 	float DeltaArm;
-	
+
 	/** Amount the Rotation Changes */
 	UPROPERTY(Category = "Movement Variables: Zoom", BlueprintReadOnly)
 	FRotator DeltaRotation;
-	
-	// Field of View Here
 
 	/** Farthest Camera can get on Zoom Out */
 	UPROPERTY(Category = "Movement Variables: Zoom", BlueprintReadOnly)
@@ -94,16 +90,14 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Camera Speed")
 	FORCEINLINE bool IsCameraDisable() { return bDisableCameraMovement; }
 
-	
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Camera Location")
 	FVector GetCameraLocation();
-	
+
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Camera Direction")
 	FVector GetFaceDirection();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Camera Direction")
 	FRotator GetCameraRotation();
-
 
 	// Setters
 	UFUNCTION(BlueprintCallable, Category = "Camera Speed")
@@ -130,11 +124,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
 	virtual void ZoomIn();
-		
+
 	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
 	virtual void ZoomOut();
 
 	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
 	virtual void DefaultZoom();
-	
 };

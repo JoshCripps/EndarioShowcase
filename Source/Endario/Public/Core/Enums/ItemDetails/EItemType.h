@@ -14,9 +14,3 @@ enum class EItemType : uint8 {
 	Weapons = 5        UMETA(DisplayName = "Weapons"),
 	Clothing = 6       UMETA(DisplayName = "Clothing"),
 };
-
-
-//WoodLogs = 0        UMETA(DisplayName = "WoodLogs"),
-//StoneRocks = 1    UMETA(DisplayName = "StoneRocks"),
-//WoodPlanks = 2    UMETA(DisplayName = "WoodPlanks"),
-//StoneBricks = 3    UMETA(DisplayName = "StoneBricks")

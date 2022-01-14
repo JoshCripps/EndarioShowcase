@@ -8,13 +8,10 @@
 #include "GameFramework/PlayerController.h"
 
 // Sets default values for this component's properties
-UCameraMovementComponent::UCameraMovementComponent()
-{
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
+UCameraMovementComponent::UCameraMovementComponent() {
+
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
-
 
 	// Set Default Attributes
 	bDisableCameraMovement = false;
@@ -26,76 +23,51 @@ UCameraMovementComponent::UCameraMovementComponent()
 	DeltaRotation = FRotator(7.15, 0.0, 0.0);
 	MaxZoom = 100.0; // Closest Camera can get to the Map
 	MinZoom = 2000.0; // Furthest Camera can get away from the Map
-
 }
 
-
 // Called when the game starts
-void UCameraMovementComponent::BeginPlay()
-{
+void UCameraMovementComponent::BeginPlay() {
 	Super::BeginPlay();
 
 	// Cast to the owner
 	CameraOwner = Cast<ACameraPawn>(GetOwner()); // Populates the owner of this component.
 	PlayerControllerRef = Cast<APlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)); // Populates Player Controller Ref
-
-
-		
-
-	
-
 }
-
 
 // Called every frame
-void UCameraMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
+void UCameraMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
-
-
 
 // Getters
 FVector UCameraMovementComponent::GetCameraLocation() {
-
 	return CameraOwner->GetActorLocation();
 }
 
 FVector UCameraMovementComponent::GetFaceDirection() {
-
 	return CameraOwner->GetActorForwardVector();
 }
 
 FRotator UCameraMovementComponent::GetCameraRotation() {
-
 	return CameraOwner->GetActorRotation();
 }
 
 // Setters
 float UCameraMovementComponent::SetMovementSpeedModifier(float ModifierAmount) {
-		
 	return MovementSpeedModifier = ModifierAmount;
 }
 
 float UCameraMovementComponent::SetMovememtSpeed(float MovementSpeedAdjustment) {
-
 	return DefaultMovementSpeed = MovementSpeedAdjustment;
 }
 
 bool UCameraMovementComponent::SetCameraDisable(bool bDisableCamera) {
-
 	return bDisableCameraMovement = bDisableCamera;
 }
 
 // Utilities: Basic Movement Controls
-
-/** Movement Control - W A S D */
 void UCameraMovementComponent::BasicMovementControl(float AxisValueX, float AxisValueY) {
 
-	// Parameters will be 1 or -1...
-	// Set Variables used in movement calculation
 	float MovementValueX;
 	float MovementValueY;
 	FVector MovementX;
@@ -111,21 +83,18 @@ void UCameraMovementComponent::BasicMovementControl(float AxisValueX, float Axis
 			MovementValueY =  AxisValueY * GetCurrentMovementSpeed() * GetSpeedModifier();
 			MovementY = FVector(0.0f, MovementValueY, 0.0f);
 
-			// TODO You can reduce a line here
 			CameraOwner->AddActorLocalOffset(MovementX + MovementY, true);
 		}
 		else if (AxisValueX != 0) {
 			MovementValueX = AxisValueX * GetCurrentMovementSpeed() * GetSpeedModifier();
 			MovementX = FVector(MovementValueX, 0.0f, 0.0f);
 
-			// Sweep we want true
 			CameraOwner->AddActorLocalOffset(MovementX, true);
 		}
 		else if (AxisValueY != 0) {
 			MovementValueY = AxisValueY * GetCurrentMovementSpeed() * GetSpeedModifier();
 			MovementY = FVector(0.0f, MovementValueY, 0.0f);
 
-			// Sweep we want true
 			CameraOwner->AddActorLocalOffset(MovementY, true);
 		}
 	}
@@ -151,8 +120,8 @@ void UCameraMovementComponent::EdgeScroll() {
 	// Variables for movement
 	float DeltaSpeedX;
 	float DeltaSpeedY;
-	FVector MovementX; // Use with DeltaSpeedY (Swap)
-	FVector MovementY; // Use with DeltaSpeedX (Swap)
+	FVector MovementX;
+	FVector MovementY;
 
 	// Get Mouse Position
 	float MousePositionX{ 0 };
@@ -170,7 +139,7 @@ void UCameraMovementComponent::EdgeScroll() {
 
 	// Set EdgeScrollSpeeds based on Proportion
 	if (ProportionX >= 0.975f && ProportionY <= 0.025f) {
-		// Top Right Corner
+
 		DeltaSpeedX = 7.07f * GetSpeedModifier();
 		DeltaSpeedY = 7.07f;
 
@@ -180,8 +149,8 @@ void UCameraMovementComponent::EdgeScroll() {
 		CameraOwner->AddActorLocalOffset(MovementX + MovementY, true);
 	}
 	else if (ProportionX >= 0.975f && ProportionY >= 0.975f) {
-		SetCameraDisable(true); // Disable WASD Keys
 		// Bottom Right Corner
+		SetCameraDisable(true); // Disable WASD Keys
 		DeltaSpeedX = 7.07f * GetSpeedModifier();
 		DeltaSpeedY = -7.07f;
 
@@ -258,48 +227,29 @@ void UCameraMovementComponent::EdgeScroll() {
 		DeltaSpeedY = 0.0;
 
 		SetCameraDisable(false);
-
 	}
-
 }
 
 /** Zoom In */
 void UCameraMovementComponent::ZoomIn() {
-	
+
 	UE_LOG(LogTemp, Warning, TEXT("Zooming In: %f"), CameraOwner->GetCurrentArmLength());
 	if (CameraOwner->GetCurrentArmLength() >= MaxZoom) {
 		CameraOwner->SetArmLength(-100.0f * DeltaArm);
-		
-
-
-
-		//if (CameraOwner->GetCurrentArmLength() <= DefaultZoomLength) {
-		//	CameraOwner->SetArmRotation(DeltaRotation);
-		//}
 	}
 }
 
 /** Zoom Out */
 void UCameraMovementComponent::ZoomOut() {
 
-
-
 	UE_LOG(LogTemp, Warning, TEXT("Zooming Out: %f"), CameraOwner->GetCurrentArmLength());
 	if (CameraOwner->GetCurrentArmLength() <= MinZoom) {
 		CameraOwner->SetArmLength(DeltaArm);
-		//if (CameraOwner->GetCurrentArmLength() <= DefaultZoomLength) {
-		//	CameraOwner->SetArmRotation(-1.0f * DeltaRotation);
-		//}
 	}
-
 }
 
 /** Zoom Reset */
 void UCameraMovementComponent::DefaultZoom() {
 
 	CameraOwner->SetToDefaultZoom();
-
 }
-
-
-
