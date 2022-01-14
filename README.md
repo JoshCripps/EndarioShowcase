@@ -7,4 +7,4 @@
 
 
 ## About
-Showcase of Source Code from Endario - A Survival Village Simulator. Selected Folders and screenshots of Blueprints are shown.
+Showcase of Source Code from Endario - A Survival Village Simulator. Selected Folders and Screenshots of Blueprints are shown. 
